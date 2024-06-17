@@ -6,50 +6,13 @@ import time
 
 from flask import Flask, jsonify, render_template, request, send_from_directory
 
+from utils.util import read_csv, write_csv
+
 app = Flask(__name__)
 
 CSV_FILE = ""
 VIDEO_DATA = {}
 VIDEO_FOLDER = "videos"
-
-def read_csv(csv_file:str):
-    """
-    Read the csv file and return a list of dictionary that store the data.
-
-    The keys of the dictionary are the headers names. The value of the dictionary are the value.
-
-    The first line of the csv file is the headers
-    """
-    datas = []
-    with open(csv_file, "r", encoding="utf-8") as file:
-        reader = csv.reader(file)
-        headers = next(reader)
-        for row in reader:
-            row = [item.strip().replace('\n', '').replace('\r', '') for item in row]
-            data = dict(zip(headers, row))
-
-            if "label" not in data:
-                data["label"] = ""
-            datas.append(data)
-    return datas
-
-def write_csv(csv_file:str, datas:list):
-    """
-    Write the datas to the csv file.
-
-    The datas is a list of dictionary that store the data.
-
-    The keys of the dictionary are the headers names. The value of the dictionary are the value.
-
-    The first line of the csv file is the headers
-    """
-    with open(csv_file, "w", encoding="utf-8", newline="") as file:
-        writer = csv.writer(file)
-        headers = datas[0].keys()
-        writer.writerow(headers)
-        for data in datas:
-            row = [data[header] for header in headers]
-            writer.writerow(row)
 
 def save_data():
     """
@@ -95,6 +58,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     CSV_FILE = args.csv_file
     for data in read_csv(CSV_FILE):
+        if "label" not in data:
+            data["label"] = ""
         VIDEO_DATA[data["uuid"]] = data
     # Sort the data by the key
     VIDEO_DATA = dict(sorted(VIDEO_DATA.items()))

@@ -19,7 +19,6 @@ const BUTTONS = [LEFT_BUTTON, BOTH_BUTTON, RIGHT_BUTTON];
 const LEFT = "left";
 const RIGHT = "right";
 const BOTH = "both";
-const EMPTY = "empty";
 
 // Current idx of the image.
 let currentIdx = 0;
