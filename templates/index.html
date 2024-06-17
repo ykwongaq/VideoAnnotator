@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Image Selector</title>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{ url_for('static', filename='css/styles.css') }}?v={{ time.time() }}"
+        />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{ url_for('static', filename='css/button.css') }}?v={{ time.time() }}"
+        />
+    </head>
+    <body>
+        <!-- Slideshow container -->
+        <div class="text" id="video_name">Video Name</div>
+        <div class="slideshow-container">
+            <!-- Full-width images with number and caption text -->
+            <div class="mySlides fade">
+                <video id="video" loop muted controls style="width: 100%">
+                    <source src="" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <!-- Next and previous buttons -->
+            <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+            <a class="next" onclick="changeSlide(1)">&#10095;</a>
+        </div>
+        <div class="prompt" id="prompt">Prompt Text</div>
+
+        <div class="label-button-container">
+            <div>
+                <label>
+                    <input type="radio" name="radio" id="left-button" />
+                    <span>Left is Better (J)</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio" id="both-button" />
+                    <span>Both are Bad (K)</span>
+                </label>
+                <label>
+                    <input type="radio" name="radio" id="right-button" />
+                    <span>Right is Better(L)</span>
+                </label>
+            </div>
+        </div>
+        <div class="text">
+            Shortcuts: A for previous video, D for previous video, J for Left is
+            Better, K for Both are Bad, L for Right is Better
+        </div>
+        <div id="notification" class="notification"></div>
+        <br />
+
+        <script src="{{url_for('static', filename='js/slidershow.js')}}?v={{ time.time() }}"></script>
+    </body>
+</html>
