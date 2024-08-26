@@ -1,0 +1,53 @@
+#uploader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 2px dashed #ccc;
+    width: 300px;
+    margin: 50px auto;
+}
+
+/* Center the container div in the viewport */
+.scene {
+    align-items: center; /* Vertically center items */
+    justify-content: center; /* Horizontally center items */
+    width: 90%; /* Adjust width as needed */
+    margin: auto; /* Center within the viewport */
+}
+
+/* Style the image and video to fill the container horizontally */
+.scene img,
+.scene video {
+    flex: 1;
+    max-width: 49.5%; /* Each item takes up half of the container's width */
+    height: auto;
+}
+.scene div {
+    font-size: 20px;
+    font-weight: bold;
+}
+.scene div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button_row {
+    width: 90%;
+    height: 70px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* padding: 0 10px; */
+    box-sizing: border-box;
+}
+
+.button {
+    padding: 10px 20px;
+}
+
+.hidden {
+    display: none;
+}

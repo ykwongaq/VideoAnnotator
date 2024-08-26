@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>File Uploader</title>
+        <link rel="stylesheet" href="style/style.css" />
+        <link rel="stylesheet" href="style/button.css" />
+        <link rel="stylesheet" href="style/instance.css" />
+    </head>
+    <body>
+        <div id="uploader">
+            <label for="fileInput">Upload your file</label>
+            <input type="file" id="fileInput" />
+        </div>
+        <div class="scene hidden">
+            <div id="scene_info"></div>
+            <img id="image" />
+            <video id="video" loop muted controls style="width: 100%">
+                <source id="video_src" src="" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="button_row hidden">
+            <button id="prev" class="button-28">Prev</button>
+            <button id="show_mask" class="button-28">Show Mask</button>
+            <button id="next" class="button-28">Next</button>
+        </div>
+        <div id="scrollbar" class="scrollbar hidden">
+            <ul id="scrollbar-items" class="scrollbar-items"></ul>
+        </div>
+        <script src="js/instance_builder.js"></script>
+        <script src="js/instance.js"></script>
+        <script src="js/scene.js"></script>
+        <script src="js/dataset.js"></script>
+        <script src="js/lanch.js"></script>
+    </body>
+</html>
