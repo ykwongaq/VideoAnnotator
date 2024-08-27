@@ -3,7 +3,6 @@ import json
 import os
 
 import cv2
-import matplotlib.pyplot as plt
 import numpy as np
 from pycocotools import mask as coco_mask
 from tqdm import tqdm
