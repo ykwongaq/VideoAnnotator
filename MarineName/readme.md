@@ -47,7 +47,7 @@ Double click `index.html` to launch annotation and upload the `dataset.json`
 
 Please specify the `common name` and `scientific name` of the target creature, and its behavior by filling corresponding boxes.
 
-![annotator](img\annotator.png)
+![annotator](img//annotator.png)
 
 The result will be automatically saved and downloaded as `json` file, when you click the `Next` button.
 
