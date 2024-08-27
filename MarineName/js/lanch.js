@@ -40,16 +40,20 @@ FILE_INPUT.addEventListener("change", function (e) {
 });
 
 function showScene(scene) {
-    removeInstanceList();
+    let instance_paths = null;
     if (SHOW_MASK) {
         showImage(scene.getFirstColoredFramePath());
         showVideo(scene.getVideoWithMaskPath());
-        showInstanceList(scene.getInstanceWithMaskPaths());
+        instance_paths = scene.getInstanceWithMaskPaths();
     } else {
         showImage(scene.getFirstFramePath());
         showVideo(scene.getVideoPath());
-        showInstanceList(scene.getInstancePaths());
+        instance_paths = scene.getInstancePaths();
     }
+
+    removeInstanceList();
+    showInstanceList(instance_paths);
+
     showSceneInfo(
         `Scene: ${scene.getName()} \t (${
             current_scene_index + 1
@@ -96,12 +100,10 @@ function showSceneInfo(scene_info) {
 }
 
 function showImage(image_path) {
-    console.log(image_path);
     IMAGE.src = image_path;
 }
 
 function showVideo(video_path) {
-    console.log(video_path);
     VIDEO_SRC.src = video_path;
     VIDEO.load();
     VIDEO.play();
@@ -116,6 +118,7 @@ PREV_BUTTON.addEventListener("click", function () {
 });
 
 NEXT_BUTTON.addEventListener("click", function () {
+    save_name_annotation();
     if (current_scene_index < DATASET.getLen() - 1) {
         current_scene_index += 1;
         scene = DATASET.getScene(current_scene_index);
@@ -126,5 +129,89 @@ NEXT_BUTTON.addEventListener("click", function () {
 SHOW_MASK_BUTTON.addEventListener("click", function () {
     SHOW_MASK = !SHOW_MASK;
     scene = DATASET.getScene(current_scene_index);
-    showScene(scene);
+    adjust_mask();
 });
+
+function save_name_annotation() {
+    const name_annotation_list = extract_input_list();
+    const scene = DATASET.getScene(current_scene_index);
+    const scene_name = scene.getName();
+
+    const json = {
+        scene_name: scene_name,
+        name_annotations: name_annotation_list,
+    };
+
+    const json_str = JSON.stringify(json, null, 2);
+
+    const blob = new Blob([json_str], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${scene_name}.json`;
+    link.click();
+
+    URL.revokeObjectURL(link.href);
+}
+
+function adjust_mask() {
+    scene = DATASET.getScene(current_scene_index);
+    let instance_paths = null;
+    if (SHOW_MASK) {
+        showImage(scene.getFirstColoredFramePath());
+        showVideo(scene.getVideoWithMaskPath());
+        instance_paths = scene.getInstanceWithMaskPaths();
+    } else {
+        showImage(scene.getFirstFramePath());
+        showVideo(scene.getVideoPath());
+        instance_paths = scene.getInstancePaths();
+    }
+
+    if (INSTANCE_VIEWS != null) {
+        for (let i = 0; i < INSTANCE_VIEWS.length; i++) {
+            INSTANCE_VIEWS[i].querySelector(".instance_view img").src =
+                instance_paths[i];
+        }
+    }
+}
+function extract_input_list() {
+    name_annotation_list = [];
+    idx = 0;
+    for (let input_view of INSTANCE_VIEWS) {
+        const common_name_input = document.querySelector(
+            'input[name="common_name"]'
+        );
+        const sci_name_input = document.querySelector('input[name="sci_name"]');
+        const behavior_textarea = document.querySelector(
+            'textarea[name="behavior"]'
+        );
+
+        const common_name = common_name_input.value.trim();
+        const sci_name = sci_name_input.value.trim();
+        const behavior = behavior_textarea.value.trim();
+
+        json_item = {};
+
+        if (common_name === "") {
+            json_item["common_name"] = null;
+        } else {
+            json_item["common_name"] = common_name;
+        }
+
+        if (sci_name === "") {
+            json_item["sci_name"] = null;
+        } else {
+            json_item["sci_name"] = sci_name;
+        }
+        if (behavior === "") {
+            json_item["behavior"] = null;
+        } else {
+            json_item["behavior"] = behavior;
+        }
+        json_item["id"] = idx;
+        name_annotation_list.push(json_item);
+
+        idx += 1;
+    }
+
+    return name_annotation_list;
+}
