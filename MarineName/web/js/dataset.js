@@ -14,11 +14,11 @@ class Dataset {
         return this.instance;
     }
 
-    parseJSON(json_str) {
+    parseJSON(floderPath, json_str) {
         let json = JSON.parse(json_str);
         for (let scene_name in json) {
             const json_data = json[scene_name];
-            const scene = new Scene(scene_name, json_data);
+            const scene = new Scene(scene_name, floderPath, json_data);
             this.scene_list.push(scene);
         }
     }

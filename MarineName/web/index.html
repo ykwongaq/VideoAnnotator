@@ -3,15 +3,20 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>File Uploader</title>
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+        <title>Video Annotator</title>
         <link rel="stylesheet" href="style/style.css" />
         <link rel="stylesheet" href="style/button.css" />
         <link rel="stylesheet" href="style/instance.css" />
     </head>
     <body>
         <div id="uploader">
-            <label for="fileInput">Upload your file</label>
-            <input type="file" id="fileInput" />
+            <button type="button" id="fileSelect">Load the dataset</button>
+            <strong id="loading_msg" style="color: red;"></strong>
+            <!-- <label for="fileInput">Upload your file</label>
+            <input type="file" id="fileInput" onchange="handleFileSelect()" /> -->
+        </div>
+        <div id="file_path">
         </div>
         <div class="scene hidden">
             <div id="scene_info"></div>
@@ -34,5 +39,15 @@
         <script src="js/scene.js"></script>
         <script src="js/dataset.js"></script>
         <script src="js/lanch.js"></script>
+        <script>
+            function handleFileSelect() {
+                const fileInput = document.getElementById('fileInput');
+                console.log(fileInput.value);
+                // const file = fileInput.files[0];
+                
+                // console.log('File path:', file.path); // Accessing file path (works in Electron's main process)
+                // console.log('File name:', file.name); // Accessing file name
+            }
+        </script>
     </body>
 </html>

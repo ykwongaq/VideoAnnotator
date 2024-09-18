@@ -51,3 +51,28 @@ Please specify the `common name` and `scientific name` of the target creature, a
 
 The result will be automatically saved and downloaded as `json` file, when you click the `Next` button.
 
+## 3. Annotation-Electron
+
+Unpack the zip file in /MarineName/out, double click videoanno.app(MacOS Intel) or videoAnnotator.exe(Windows) to launch the annotator.
+
+Upload the `dataset.json` and start the  annotation.
+
+### run electron code
+
+environment:
+```bash
+node.js
+electron
+electron-builder
+```
+
+start the electron server:
+```bash
+npm start
+```
+
+build the electron application:
+```bash
+npm build:win
+npm build:mac
+```

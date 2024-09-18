@@ -20,24 +20,63 @@ let INSTANCE_VIEWS = [];
 let current_scene_index = 0;
 let SHOW_MASK = true;
 
-FILE_INPUT.addEventListener("change", function (e) {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        DATASET.parseJSON(e.target.result);
-        current_scene_index = 0;
-        scene = DATASET.getScene(current_scene_index);
-        showScene(scene);
+// FILE_INPUT.addEventListener("change", function (e) {
+//     console.log(this.files[0].path);
 
-        let elements = document.querySelectorAll(".hidden");
-        elements.forEach((element) => {
-            element.classList.remove("hidden");
-        });
-    };
-    reader.readAsText(file);
-    // Hide the upload file container after loading the json file
-    FILE_INPUT.style.display = "none";
-});
+//     const file = e.target.files[0];
+//     let { path } = file;
+//     let file_div = document.getElementById('file_path');
+//     file_div.innerHTML = path;
+//     const reader = new FileReader();
+//     reader.onload = function (e) {
+//         DATASET.parseJSON(e.target.result);
+//         current_scene_index = 0;
+//         scene = DATASET.getScene(current_scene_index);
+//         showScene(scene);
+
+//         let elements = document.querySelectorAll(".hidden");
+//         elements.forEach((element) => {
+//             element.classList.remove("hidden");
+//         });
+//     };
+//     reader.readAsText(file);
+//     // Hide the upload file container after loading the json file
+//     FILE_INPUT.style.display = "none";
+// });
+
+
+const fileSelectElement = document.getElementById('fileSelect')
+const loadingMsg = document.getElementById('loading_msg')
+
+fileSelectElement.addEventListener('click', async () => {
+    const open_res = await window.electronAPI.openFile()
+    const filePath = String(open_res)
+    let floderPathList = filePath.split("/")
+    // console.log(floderPathList)
+    floderPathList.pop()
+    floderPathList.pop()
+    let floderPath = floderPathList.join("/")
+    console.log(floderPath)
+    // filePathElement.innerText = filePath
+    if (filePath) {
+        const file = await window.electronAPI.readFile(filePath)
+        if (file.success) {
+            // console.log(file.data);
+            DATASET.parseJSON(floderPath, file.data);
+            current_scene_index = 0;
+            scene = DATASET.getScene(current_scene_index);
+            showScene(scene);
+
+            let elements = document.querySelectorAll(".hidden");
+            elements.forEach((element) => {
+                element.classList.remove("hidden");
+            });
+            FILE_INPUT.style.display = "none";
+        } else {
+            loadingMsg.innerHTML = "Loading Error: "+ filePath + " \n" + file.error
+        }
+    }
+})
 
 function showScene(scene) {
     let instance_paths = null;
