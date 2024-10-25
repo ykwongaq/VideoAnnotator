@@ -60,21 +60,13 @@ class Server:
             # Randomly assign one video from either lose or
             # win folder to video_1 and video_2
             if random.choice([True, False]):
-                data["video_1"] = os.path.join(
-                    "losevideos", os.path.basename(lose_files[i])
-                )
-                data["video_2"] = os.path.join(
-                    "winvideos", os.path.basename(win_files[i])
-                )
+                data["video_1"] = lose_files[i]
+                data["video_2"] = win_files[i]
                 data["video_1_label"] = "lose"
                 data["video_2_label"] = "win"
             else:
-                data["video_1"] = os.path.join(
-                    "winvideos", os.path.basename(win_files[i])
-                )
-                data["video_2"] = os.path.join(
-                    "losevideos", os.path.basename(lose_files[i])
-                )
+                data["video_1"] = win_files[i]
+                data["video_2"] = lose_files[i]
                 data["video_1_label"] = "win"
                 data["video_2_label"] = "lose"
             data["file_name"] = os.path.basename(lose_files[i])
