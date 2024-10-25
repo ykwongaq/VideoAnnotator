@@ -43,3 +43,10 @@
     box-shadow: none;
     transform: translateY(0);
 }
+
+.selected {
+    color: #fff;
+    background-color: #1a1a1a;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+}

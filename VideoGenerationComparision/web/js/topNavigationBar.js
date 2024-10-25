@@ -20,7 +20,7 @@ class TopNavigationBar {
         this.enableFileDropdownMenu();
         this.enableCreateProjectButton(); 
         this.enableLoadProjectButton();
-        this.enableExportCOCOButton();
+        this.enableExportResultButton();
     }
 
     enableFileDropdownMenu() {
@@ -55,23 +55,24 @@ class TopNavigationBar {
     }
     enableLoadProjectButton() {
         this.loadProjectButton.addEventListener("click", () => {
-            eel.select_folder("Select the project folder")((path) => {
+            eel.select_folder(null)((path) => {
                 const core = new Core();
                 core.loadProject(path);
             })
         });
     }
 
-    enableExportCOCOButton() {
+    enableExportResultButton() {
         this.exportResultButton.addEventListener("click", () => {
             const core = new Core();
             if (!core.isProjectLoaded()) {
                 alert("Please load a project first!");
                 return;
             }
-            eel.select_folder("Select the output folder")((path) => {
+            eel.select_folder(null)((path) => {
                 if (path) {
-                    
+                    const core = new Core();
+                    core.exportResult(path);
                 }
             });
         });

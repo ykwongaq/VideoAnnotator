@@ -5,52 +5,98 @@ class Core {
         }
 
         Core.instance = this;
-        this.isProjectLoaded = false;
-
-        this.mainPage = document.getElementById("main-page");
+        this.projectLoaded = false;
 
         return this;
     }
 
     createProject(dataFolder, outputFolder) {
-        eel.create_project(dataFolder, outputFolder)((projectData) => {
+        eel.create_project(
+            dataFolder,
+            outputFolder
+        )((projectData) => {
+            this.setProjectLoaded(true);
+
             const dataset = new Dataset();
             dataset.loadProject(projectData);
-            
-            this.showMainPage();
+
+            const mainPage = new MainPage();
+            mainPage.showMainPage();
             const data = dataset.getCurrentData();
-            this.showData(data);
-        })
+            this.setCurrentData(data);
+
+        });
     }
 
     loadProject(projectPath) {
         eel.load_project(projectPath)((projectData) => {
-            console.log(projectData);
+            this.setProjectLoaded(true);
+
+            const dataset = new Dataset();
+            dataset.loadProject(projectData);
+
+            const mainPage = new MainPage();
+            mainPage.showMainPage();
+            const data = dataset.getCurrentData();
+            this.setCurrentData(data);
         });
     }
 
-    exportResult(result, outputFolder) {
-        
+    exportResult(path) {
+        this.save();
+        const dataset = new Dataset();
+        const exportedJson = dataset.exportJson();
+        eel.export_result(exportedJson, path);
     }
 
-    showMainPage() {
-        this.mainPage.classList.remove("hidden");
-    }   
 
-    hideMainPage() {    
-        this.mainPage.classList.add("hidden");
-    }
-    
     isProjectLoaded() {
-        return this.isProjectLoaded;
+        return this.projectLoaded;
     }
 
-    setProjectLoaded(isProjectLoaded) {
-        this.isProjectLoaded = isProjectLoaded;
+    setProjectLoaded(projectLoaded) {
+        this.projectLoaded = projectLoaded;
     }
 
-    showData(data) {
-
+    setCurrentData(data) {
+        const mainPage = new MainPage();
+        mainPage.showData(data);
+        mainPage.updateButtons();
     }
-    
+
+    extractSaveProjectData() {
+        const dataset = new Dataset();
+        const projectData = {
+            "last_index": dataset.getCurrentDataIdx(),
+            "data": dataset.exportJson()
+        };
+        return projectData;
+    }
+
+    async save() {
+        const saveData = this.extractSaveProjectData();
+        await eel.save(saveData);
+    }
+
+    nextVideo() {
+        this.save();
+        const dataset = new Dataset();
+        const currentDataIdx = dataset.getCurrentDataIdx();
+        const data = dataset.getData(currentDataIdx + 1);
+        if (data) {
+            dataset.setCurrentDataIdx(currentDataIdx + 1);
+            this.setCurrentData(data);
+        }
+    }
+
+    prevVideo() {
+        this.save();
+        const dataset = new Dataset();
+        const currentDataIdx = dataset.getCurrentDataIdx();
+        const data = dataset.getData(currentDataIdx - 1);
+        if (data) {
+            dataset.setCurrentDataIdx(currentDataIdx - 1);
+            this.setCurrentData(data);
+        }
+    }
 }

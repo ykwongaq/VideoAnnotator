@@ -1,9 +1,10 @@
+import base64
 import os
-import eel
-
 from tkinter import Tk, filedialog, messagebox
+from typing import Dict, List
+
+import eel
 from server.server import Server
-from typing import List, Dict
 
 
 @eel.expose
@@ -11,7 +12,9 @@ def select_folder(message: str) -> str:
     root = Tk()
     root.withdraw()
     root.wm_attributes("-topmost", 1)
-    messagebox.showinfo("Select Folder", message)
+    if message is not None:
+        messagebox.showinfo("Select Folder", message)
+
     folder = filedialog.askdirectory()
     return folder
 
@@ -27,8 +30,20 @@ def load_project(project_folder: str) -> Dict:
 
 
 @eel.expose
-def export_result(output_folder: str) -> None:
-    server.export_result(output_folder)
+def load_video(video_path: str) -> str:
+    with open(video_path, "rb") as f:
+        video = f.read()
+    return base64.b64encode(video).decode("utf-8")
+
+
+@eel.expose
+def export_result(data: Dict, output_folder: str) -> None:
+    server.export_result(data, output_folder)
+
+
+@eel.expose
+def save(project_data: Dict) -> None:
+    server.save_project_data(project_data)
 
 
 if __name__ == "__main__":
