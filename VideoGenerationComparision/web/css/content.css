@@ -1,0 +1,35 @@
+body {
+    height: 100vh;
+    margin: 0;
+}
+
+.content {
+    height: 90%;
+    max-height: 90%;
+}
+
+.main-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.video-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.video-view {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.video-view .button-28 {
+    margin: 5px;
+}
+
+.hidden {
+    display: none;
+}
