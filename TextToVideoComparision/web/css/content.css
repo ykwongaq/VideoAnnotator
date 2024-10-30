@@ -27,8 +27,14 @@ body {
     align-items: center;
 }
 
+.description {
+    margin: 3px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
 .video-view video {
-    width: 200%;  /* Double the original width */
+    width: 200%; /* Double the original width */
     height: 200%; /* Double the original height */
     max-width: 100%; /* Ensure it doesn't exceed the container */
     max-height: 100%; /* Ensure it doesn't exceed the container */
