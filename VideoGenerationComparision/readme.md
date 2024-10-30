@@ -61,7 +61,7 @@ After you annotated all the video, click this to export the result to desired po
 
 The format of the result is a `List` of `Dictionary`:
 
-```json
+```
 [
 	{
 		"video_1": absolute path to the video 1,
@@ -71,6 +71,7 @@ The format of the result is a `List` of `Dictionary`:
 		"file_name": Name of the video file, with extension,
 		"better_video": Id of the better video selected by the user. Value: [1, 2],
 	},
+	...
 ]
 ```
 
