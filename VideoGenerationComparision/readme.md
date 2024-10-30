@@ -64,15 +64,13 @@ The format of the result is a `List` of `Dictionary`:
 ```json
 [
 	{
-		"video_1": absolute path to the video 1
-		"video_2": absolute path to the video 2
-		"video_1_label": Label of the video 1. Value: ["win", "lose"]
-		"video_2_label": Label of the video 2. Value: ["win", "lose"]
-		"file_name": Name of the video file, with extension
-		"better_video": Id of the better video selected by the user. Value: [1, 2]
+		"video_1": absolute path to the video 1,
+		"video_2": absolute path to the video 2,
+		"video_1_label": Label of the video 1. Value: ["win", "lose"],
+		"video_2_label": Label of the video 2. Value: ["win", "lose"],
+		"file_name": Name of the video file, with extension,
+		"better_video": Id of the better video selected by the user. Value: [1, 2],
 	},
-	...
-
 ]
 ```
 
